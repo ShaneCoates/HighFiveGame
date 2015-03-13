@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class BoxController : MonoBehaviour {
 	public int score;
 	public GameObject hand;
+	public ParticleSystem particles;
 	bool inRange = false;
 	bool dissapearing = false;
 	Color colour = new Color(1, 1, 1, 0);
@@ -26,6 +27,7 @@ public class BoxController : MonoBehaviour {
 		handPos.y += Random.Range (0, 2f);
 		handPos.z -= 0.01f;
 		hand.transform.position = handPos;
+		particles.emissionRate = 0;
 	}
 	
 	// Update is called once per frame
@@ -70,9 +72,10 @@ public class BoxController : MonoBehaviour {
 	}
 
 	void CheckCollision() {
-		Vector2 inputPos;
+		Vector2 inputPos = new Vector2 (-1, -1);
 #if UNITY_STANDALONE || UNITY_WEBPLAYER || UNITY_EDITOR
-		inputPos = Input.mousePosition;
+		if(Input.GetMouseButtonDown (0))
+			inputPos = Input.mousePosition;
 #else
 		if(Input.touchCount > 0)
 		{
@@ -83,15 +86,17 @@ public class BoxController : MonoBehaviour {
 #endif
 		ray = Camera.main.ScreenPointToRay (inputPos);
 		if (Physics.Raycast (ray, out hit)) {
-			if (hit.collider.name == "Hand")
+			if (hit.collider.gameObject == hand)
+				if(inputPos.x != -1)
 				Collide();
 		}
 	}
 
 	void Collide() {
-		if (Input.GetMouseButtonDown (0) && inRange && !dissapearing) {
+		if (inRange && !dissapearing) {
 			dissapearing = true;
 			++GameManager.instance.consecutive;
+			//particles.Emit(1000);
 		}
 	}
 

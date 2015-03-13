@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour {
 	public int multiplier = 1;
 	public Text scoreText;
 	float timer = 0f;
-	int count = 0;
+	float count = 0;
 	Vector3 pos;
 	// Use this for initialization
 	void Start () {
