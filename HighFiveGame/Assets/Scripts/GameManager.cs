@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 	public static GameManager instance = null;
+	public Camera mainCamera;
 	public GameObject obj;
 	public int score = 0;
 	public int consecutive;
@@ -12,13 +13,13 @@ public class GameManager : MonoBehaviour {
 	float timer = 0f;
 	float count = 0;
 	Vector3 pos;
+
 	// Use this for initialization
 	void Start () {
 		if (instance == null)
 			instance = this;
 		else if (instance != this)
 			Destroy(gameObject);
-		
 		DontDestroyOnLoad(gameObject);
 	}
 	
@@ -38,9 +39,6 @@ public class GameManager : MonoBehaviour {
 			consecutive = 0;
 			++multiplier;
 		}
-
 		scoreText.text = "Score: " + score + " - Multiplier: " + multiplier;
 	}
-
-
 }
