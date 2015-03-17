@@ -5,7 +5,6 @@ using UnityEngine.UI;
 public class BoxController : MonoBehaviour {
 	public int score;
 	public GameObject hand;
-	public ParticleSystem particles;
 	bool inRange = false;
 	bool dissapearing = false;
 	Color colour = new Color(1, 1, 1, 0);
@@ -27,34 +26,30 @@ public class BoxController : MonoBehaviour {
 		handPos.y += Random.Range (0, 2f);
 		handPos.z -= 0.01f;
 		hand.transform.position = handPos;
-		particles.emissionRate = 0;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
 		this.transform.position += direction * Time.deltaTime;
-
 		CheckIfInRange ();
-
 		CheckCollision ();
-
 		AdjustOpacity ();
-
 		this.GetComponent<Renderer>().material.color = colour;
 		hand.GetComponent<Renderer>().material.color = handColour;
 	}
 
 	void CheckIfInRange() {
-		if (this.transform.position.z < 12 && this.transform.position.z > 5)
+		if (this.transform.position.z < 12 && this.transform.position.z > 5) {
 			inRange = true;
-		else
+		} else {
 			inRange = false;
+		}
 		
-		if (inRange)
+		if (inRange) {
 			handColour.g = 0.5f;
-		else if(!dissapearing)
+		} else if (!dissapearing) {
 			handColour.g = 1f;
+		}
 	}
 
 	void AdjustOpacity() {
@@ -66,24 +61,15 @@ public class BoxController : MonoBehaviour {
 		}
 		else {
 			handColour.a = handColour.a - Time.deltaTime;
-			if(handColour.a <= 0f)
+			if(handColour.a <= 0f) {
 				Destroy();
+			}
 		}
 	}
 
 	void CheckCollision() {
-		Vector2 inputPos = new Vector2 (-1, -1);
-#if UNITY_STANDALONE || UNITY_WEBPLAYER || UNITY_EDITOR
-		if(Input.GetMouseButtonDown (0))
-			inputPos = Input.mousePosition;
-#else
-		if(Input.touchCount > 0)
-		{
-			Touch myTouch = Input.touches[0];
-			if(myTouch.phase == TouchPhase.Began) 
-				inputPos = myTouch.position;
-		}
-#endif
+		Vector2 inputPos = GetTouchPos ();
+
 		ray = Camera.main.ScreenPointToRay (inputPos);
 		if (Physics.Raycast (ray, out hit)) {
 			if (hit.collider.gameObject == hand)
@@ -96,7 +82,6 @@ public class BoxController : MonoBehaviour {
 		if (inRange && !dissapearing) {
 			dissapearing = true;
 			++GameManager.instance.consecutive;
-			//particles.Emit(1000);
 		}
 	}
 
@@ -114,6 +99,21 @@ public class BoxController : MonoBehaviour {
 		if(!dissapearing)
 			Destroy ();
 	}
-	
-	
+
+	Vector2 GetTouchPos() {
+		Vector2 inputPos = new Vector2 (-1, -1);
+		#if UNITY_STANDALONE || UNITY_WEBPLAYER || UNITY_EDITOR
+			if (Input.GetMouseButtonDown (0)) {
+				inputPos = Input.mousePosition;
+			}
+		#else
+			if(Input.touchCount > 0) {
+				Touch myTouch = Input.touches[0];
+				if(myTouch.phase == TouchPhase.Began) {
+					inputPos = myTouch.position;
+				}
+			}
+		#endif
+		return inputPos;
+	}
 }
