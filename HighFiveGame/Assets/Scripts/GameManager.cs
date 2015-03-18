@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour {
 	void Update () {
 		timer -= Time.deltaTime;
 		if (timer <= 0f) {
-			pos = new Vector3(Random.Range (-5f, 5f), 0, 30);
+			pos = new Vector3(Random.Range (-5f, 5f), obj.transform.lossyScale.y * 0.5f , 30);
 			while(pos.x < 1.5f && pos.x > -1.5f) {
 				pos.x = Random.Range(-5f, 5f);
 			}
