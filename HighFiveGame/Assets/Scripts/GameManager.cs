@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour {
 	public int consecutive;
 	public int multiplier = 1;
 	public Text scoreText;
+	public GameObject background;
 	float timer = 0f;
 	float count = 0;
 	Vector3 pos;
@@ -21,6 +22,7 @@ public class GameManager : MonoBehaviour {
 		else if (instance != this)
 			Destroy(gameObject);
 		DontDestroyOnLoad(gameObject);
+
 	}
 	
 	// Update is called once per frame
@@ -40,5 +42,16 @@ public class GameManager : MonoBehaviour {
 			++multiplier;
 		}
 		scoreText.text = "Score: " + score + " - Multiplier: " + multiplier;
+
+
+		float position = (mainCamera.nearClipPlane + 0.01f);
+		
+		background.transform.position = mainCamera.transform.position + mainCamera.transform.forward * position;
+		
+		float h = Mathf.Tan(mainCamera.fov * Mathf.Deg2Rad * 0.5f) * position * 2f;
+		
+		background.transform.localScale = new Vector3(h * mainCamera.aspect, h, 0f);
+
+
 	}
 }
