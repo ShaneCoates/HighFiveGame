@@ -20,6 +20,10 @@ public class GameManager : MonoBehaviour {
 	float count = 0;
 	Vector3 pos;
 
+	float alphaFadeValue = 0.99f;
+	bool fadingOut = false;
+	public static Texture2D Fade;
+
 	// Use this for initialization
 	void Awake () {
 		playerScore = 0;
@@ -28,28 +32,31 @@ public class GameManager : MonoBehaviour {
 			instance = this;
 		else if (instance != this)
 			Destroy(gameObject);
+
+		if (Fade == null) {
+			Fade = new Texture2D (1, 1);
+			Fade.SetPixel (0, 0, new Color (1, 1, 1, 1));
+		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
 		if (timeLeft <= 0f && !GameObject.Find("Person(Clone)")) {
-			Application.LoadLevel ("GameOverScene");
+			fadingOut = true;//Application.LoadLevel ("GameOverScene");
 		} else {
 			timer -= Time.deltaTime;
 			timeLeft -= Time.deltaTime;
 		}
 
-		if (GameObject.Find ("Person(Clone)")) {
-			Debug.Log ("There is a person!");
-		} else {
-			Debug.Log ("There is no person!");
+		if (alphaFadeValue >= 1) {
+			Application.LoadLevel("GameOverScene");
 		}
 
 		if (timer <= 0f && timeLeft > 0f) {
-			pos = new Vector3(Random.Range (-5f, 5f), obj.transform.lossyScale.y * 0.5f , 30);
-			while(pos.x < 1.5f && pos.x > -1.5f) {
-				pos.x = Random.Range(-5f, 5f);
+			pos = new Vector3(Random.Range (-6f, 6f), obj.transform.lossyScale.y * 0.5f , 30);
+			while(pos.x < 2.5f && pos.x > -2.5f) {
+				pos.x = Random.Range(-6f, 6f);
 			}
 			Instantiate (obj, pos, new Quaternion());
 			timer = 1.0f - (count * 0.01f);
@@ -63,6 +70,20 @@ public class GameManager : MonoBehaviour {
 			enemyConsecutive = 0;
 			++enemyMultiplier;
 		}
-		scoreText.text = "Score: " + playerScore + " - Multiplier: " + playerMultiplier;
+		scoreText.text = "Score: " + enemyScore + " - Multiplier: " + enemyMultiplier;
+	}
+	void OnGUI ()
+	{
+		if (fadingOut) {
+			alphaFadeValue += Time.deltaTime;
+			if (alphaFadeValue != 0) {
+				GUI.color = new Color (1, 1, 1, alphaFadeValue);
+				GUI.DrawTexture (new Rect (0, 0, Screen.width, Screen.height), Fade);
+			}
+		} else if (alphaFadeValue > 0) {
+			alphaFadeValue -= Time.deltaTime;
+			GUI.color = new Color (1, 1, 1, alphaFadeValue);
+			GUI.DrawTexture (new Rect (0, 0, Screen.width, Screen.height), Fade);
+		}
 	}
 }

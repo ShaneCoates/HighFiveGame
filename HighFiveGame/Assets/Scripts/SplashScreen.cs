@@ -3,6 +3,8 @@ using System.Collections;
 using UnityEngine.UI;
 public class SplashScreen : MonoBehaviour {
 	public Image splashScreen;
+	public Text splashText;
+	float timer;
 	// Use this for initialization
 	void Awake () {
 	
@@ -22,6 +24,12 @@ public class SplashScreen : MonoBehaviour {
 			}
 		}
 		#endif
+		timer += Time.deltaTime * 2;
+		if (timer >= 3) {
+			Color colour = splashText.color;
+			colour.a = Mathf.Cos(timer);
+			splashText.color = colour;
+		}
 	}
 
 	void PlayGame() {

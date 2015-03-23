@@ -10,6 +10,7 @@ public class BoxController : MonoBehaviour {
 	Color colour = new Color(1, 1, 1, 0);
 	Color handColour = new Color (1, 1, 1, 0);
 	Vector3 direction = new Vector3 (0, 0, -7);
+	bool dead = false;
 
 	Ray ray;
 	RaycastHit hit;
@@ -44,12 +45,17 @@ public class BoxController : MonoBehaviour {
 		} else {
 			inRange = false;
 		}
-		
-		if (inRange) {
-			handColour.g = 0.5f;
-		} else if (!dissapearing) {
-			handColour.g = 1f;
-			handColour.a = 1/this.transform.position.z;
+
+		if (!dissapearing) {
+			if (inRange) {
+				handColour.g = 0.5f;
+				if (handColour.a < 1) {
+					handColour.a += Time.deltaTime;
+				}
+			} else {
+				handColour.g = 1f;
+				handColour.a = 1 / this.transform.position.z;
+			}
 		}
 	}
 
@@ -87,25 +93,28 @@ public class BoxController : MonoBehaviour {
 	}
 
 	void Destroy() {
-		if (dissapearing) {
-			GameManager.playerScore += 1 * GameManager.instance.playerMultiplier;
-		}
-		else
-			GameManager.instance.playerMultiplier = 1;
+		if (!dead) {
+			if (dissapearing) {
+				GameManager.playerScore += 1 * GameManager.instance.playerMultiplier;
+			} else {
+				GameManager.instance.playerMultiplier = 1;
+			}
 
-		if (Random.Range (0, 100) > 95) {
-			GameManager.enemyScore += 1 * GameManager.instance.enemyMultiplier;
-			++GameManager.instance.enemyConsecutive;
-		} else {
-			GameManager.instance.enemyMultiplier = 1;
+			if ((Random.Range (0, 100)) < 95) {
+				GameManager.enemyScore += 1 * GameManager.instance.enemyMultiplier;
+				++GameManager.instance.enemyConsecutive;
+			} else {
+				GameManager.instance.enemyMultiplier = 1;
+			}
 		}
-
-		GameObject.Destroy(gameObject);
+		dead = true;
 	}
 
 	void OnBecameInvisible() {
 		if(!dissapearing)
 			Destroy ();
+		GameObject.Destroy(gameObject);
+
 	}
 
 	Vector2 GetTouchPos() {
