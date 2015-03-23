@@ -20,10 +20,12 @@ public class BoxController : MonoBehaviour {
 		hand.GetComponent<Renderer>().material.color = handColour;
 
 		Vector3 handPos = this.transform.position;
-		if (this.transform.position.x < 0)
-			handPos.x += Random.Range(0.5f, 2f);
-		else 
-			handPos.x -= Random.Range(0.5f, 2f);
+		if (this.transform.position.x < 0) {
+			handPos.x += Random.Range (0.5f, 2f);
+		} else {
+			handPos.x -= Random.Range (0.5f, 2f);
+			hand.transform.localScale = new Vector3(hand.transform.localScale.x *-1, hand.transform.localScale.y, hand.transform.localScale.z);
+		}
 		handPos.y += Random.Range (0, 2f);
 		handPos.z -= 0.01f;
 		hand.transform.position = handPos;
@@ -74,11 +76,29 @@ public class BoxController : MonoBehaviour {
 		}
 	}
 
+	Vector2 GetTouchPos() {
+		Vector2 inputPos = new Vector2 (-1, -1);
+		#if UNITY_STANDALONE || UNITY_WEBPLAYER || UNITY_EDITOR
+		if (Input.GetMouseButtonDown (0)) {
+			inputPos = Input.mousePosition;
+		}
+		#else
+		if(Input.touchCount > 0) {
+			Touch myTouch = Input.touches[0];
+			if(myTouch.phase == TouchPhase.Began) {
+				inputPos = myTouch.position;
+			}
+		}
+		#endif
+		return inputPos;
+	}
+
 	void CheckCollision() {
 		Vector2 inputPos = GetTouchPos ();
 
 		ray = Camera.main.ScreenPointToRay (inputPos);
 		if (Physics.Raycast (ray, out hit)) {
+			Debug.Log(hit.collider.gameObject);
 			if (hit.collider.gameObject == hand)
 				if(inputPos.x != -1)
 				Collide();
@@ -117,20 +137,5 @@ public class BoxController : MonoBehaviour {
 
 	}
 
-	Vector2 GetTouchPos() {
-		Vector2 inputPos = new Vector2 (-1, -1);
-		#if UNITY_STANDALONE || UNITY_WEBPLAYER || UNITY_EDITOR
-			if (Input.GetMouseButtonDown (0)) {
-				inputPos = Input.mousePosition;
-			}
-		#else
-			if(Input.touchCount > 0) {
-				Touch myTouch = Input.touches[0];
-				if(myTouch.phase == TouchPhase.Began) {
-					inputPos = myTouch.position;
-				}
-			}
-		#endif
-		return inputPos;
-	}
+
 }

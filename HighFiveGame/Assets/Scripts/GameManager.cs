@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour {
 			enemyConsecutive = 0;
 			++enemyMultiplier;
 		}
-		scoreText.text = "Score: " + enemyScore + " - Multiplier: " + enemyMultiplier;
+		scoreText.text = "Score: " + playerScore + " - Enemy: " + enemyScore;
 	}
 	void OnGUI ()
 	{
