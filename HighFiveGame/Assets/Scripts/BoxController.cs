@@ -22,7 +22,7 @@ public class BoxController : MonoBehaviour {
 		if (this.transform.position.x < 0)
 			handPos.x += Random.Range(0.5f, 2f);
 		else 
-			handPos.x -= 1.5f;
+			handPos.x -= Random.Range(0.5f, 2f);
 		handPos.y += Random.Range (0, 2f);
 		handPos.z -= 0.01f;
 		hand.transform.position = handPos;
@@ -49,6 +49,7 @@ public class BoxController : MonoBehaviour {
 			handColour.g = 0.5f;
 		} else if (!dissapearing) {
 			handColour.g = 1f;
+			handColour.a = 1/this.transform.position.z;
 		}
 	}
 
@@ -81,17 +82,24 @@ public class BoxController : MonoBehaviour {
 	void Collide() {
 		if (inRange && !dissapearing) {
 			dissapearing = true;
-			++GameManager.instance.consecutive;
+			++GameManager.instance.playerConsecutive;
 		}
 	}
 
 	void Destroy() {
 		if (dissapearing) {
-			GameManager.instance.score += 1 * GameManager.instance.multiplier;
+			GameManager.playerScore += 1 * GameManager.instance.playerMultiplier;
 		}
 		else
-			GameManager.instance.multiplier = 1;
-		
+			GameManager.instance.playerMultiplier = 1;
+
+		if (Random.Range (0, 100) > 95) {
+			GameManager.enemyScore += 1 * GameManager.instance.enemyMultiplier;
+			++GameManager.instance.enemyConsecutive;
+		} else {
+			GameManager.instance.enemyMultiplier = 1;
+		}
+
 		GameObject.Destroy(gameObject);
 	}
 

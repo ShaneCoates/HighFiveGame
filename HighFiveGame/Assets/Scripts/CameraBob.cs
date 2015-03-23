@@ -19,7 +19,6 @@ public class CameraBob : MonoBehaviour {
 		}
 		if (waveslice != 0) {
 			float translateChange = waveslice * bobbingAmount;
-			translateChange = translateChange;
 			cSharpConversion.y = midpoint + translateChange;
 		}
 		else {
