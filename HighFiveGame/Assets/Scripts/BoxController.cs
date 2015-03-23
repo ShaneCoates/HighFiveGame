@@ -95,13 +95,13 @@ public class BoxController : MonoBehaviour {
 
 	void CheckCollision() {
 		Vector2 inputPos = GetTouchPos ();
-
-		ray = Camera.main.ScreenPointToRay (inputPos);
-		if (Physics.Raycast (ray, out hit)) {
-			Debug.Log(hit.collider.gameObject);
-			if (hit.collider.gameObject == hand)
-				if(inputPos.x != -1)
-				Collide();
+        if (inputPos.x != -1) {
+		    ray = Camera.main.ScreenPointToRay (inputPos);
+            if (Physics.Raycast(ray, out hit)) {
+                if (hit.collider.gameObject == hand) {
+                    Collide();
+                }
+            }
 		}
 	}
 
@@ -131,8 +131,9 @@ public class BoxController : MonoBehaviour {
 	}
 
 	void OnBecameInvisible() {
-		if(!dissapearing)
-			Destroy ();
+        if (!dissapearing) {
+            Destroy();
+        }
 		GameObject.Destroy(gameObject);
 
 	}

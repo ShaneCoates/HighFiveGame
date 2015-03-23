@@ -37,13 +37,14 @@ public class GameManager : MonoBehaviour {
 			Fade = new Texture2D (1, 1);
 			Fade.SetPixel (0, 0, new Color (1, 1, 1, 1));
 		}
+        Screen.orientation = ScreenOrientation.Landscape;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
 		if (timeLeft <= 0f && !GameObject.Find("Person(Clone)")) {
-			fadingOut = true;//Application.LoadLevel ("GameOverScene");
+			fadingOut = true;
 		} else {
 			timer -= Time.deltaTime;
 			timeLeft -= Time.deltaTime;
