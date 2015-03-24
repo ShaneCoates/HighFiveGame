@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour {
 	bool fadingOut = false;
 	public static Texture2D Fade;
 
+    float sunflowerTimer = 0f;
+
 	// Use this for initialization
 	void Awake () {
 		playerScore = 0;
@@ -38,6 +40,7 @@ public class GameManager : MonoBehaviour {
 			Fade.SetPixel (0, 0, new Color (1, 1, 1, 1));
 		}
         Screen.orientation = ScreenOrientation.Landscape;
+        SoundManager.Instance.StartGame();
 	}
 	
 	// Update is called once per frame
@@ -50,7 +53,15 @@ public class GameManager : MonoBehaviour {
 			timeLeft -= Time.deltaTime;
 		}
 
+        if (sunflowerTimer <= 0){
+            sunflowerTimer = Random.Range(1.0f, 3.0f);
+            SoundManager.Instance.SunFlower();
+        } else {
+            sunflowerTimer -= Time.deltaTime;
+        }
+
 		if (alphaFadeValue >= 1) {
+            SoundManager.Instance.Stop();
 			Application.LoadLevel("GameOverScene");
 		}
 
@@ -60,7 +71,7 @@ public class GameManager : MonoBehaviour {
 				pos.x = Random.Range(-6f, 6f);
 			}
 			Instantiate (obj, pos, new Quaternion());
-			timer = 1.0f - (count * 0.01f);
+			timer = 0.8f - (count * 0.01f);
 			count++;
 		}
 		if (playerConsecutive > 10) {

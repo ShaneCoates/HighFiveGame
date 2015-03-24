@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class BoxController : MonoBehaviour {
 	public int score;
 	public GameObject hand;
+    public ParticleSystem particles;
 	bool inRange = false;
 	bool dissapearing = false;
 	Color colour = new Color(1, 1, 1, 0);
@@ -21,14 +22,16 @@ public class BoxController : MonoBehaviour {
 
 		Vector3 handPos = this.transform.position;
 		if (this.transform.position.x < 0) {
-			handPos.x += Random.Range (0.5f, 2f);
+			handPos.x += Random.Range (0.5f, this.transform.position.x * -0.5f);
 		} else {
-			handPos.x -= Random.Range (0.5f, 2f);
+            handPos.x -= Random.Range(0.5f, this.transform.position.x * 0.5f);
 			hand.transform.localScale = new Vector3(hand.transform.localScale.x *-1, hand.transform.localScale.y, hand.transform.localScale.z);
 		}
 		handPos.y += Random.Range (0, 2f);
 		handPos.z -= 0.01f;
 		hand.transform.position = handPos;
+        particles.Pause();
+        
 	}
 	
 	// Update is called once per frame
@@ -109,6 +112,8 @@ public class BoxController : MonoBehaviour {
 		if (inRange && !dissapearing) {
 			dissapearing = true;
 			++GameManager.instance.playerConsecutive;
+            particles.Emit(500);
+            SoundManager.Instance.Slap();
 		}
 	}
 
