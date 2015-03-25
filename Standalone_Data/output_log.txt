@@ -2,25 +2,25 @@ Initialize engine version: 5.0.0f4 (5b98b70ebeb9)
 GfxDevice: creating device client; threaded=1
 Direct3D:
     Version:  Direct3D 11.0 [level 11.0]
-    Renderer: NVIDIA GeForce GTX 560  (ID=0x1201)
+    Renderer: NVIDIA GeForce GTX 970 (ID=0x13c2)
     Vendor:   NVIDIA
-    VRAM:     977 MB
+    VRAM:     3072 MB
 Begin MonoManager ReloadAssembly
-Platform assembly: C:\Users\shane.coates\Desktop\HighFive\HighFiveGame\Standalone_Data\Managed\UnityEngine.dll (this message is harmless)
-Loading C:\Users\shane.coates\Desktop\HighFive\HighFiveGame\Standalone_Data\Managed\UnityEngine.dll into Unity Child Domain
-Platform assembly: C:\Users\shane.coates\Desktop\HighFive\HighFiveGame\Standalone_Data\Managed\Assembly-CSharp.dll (this message is harmless)
-Loading C:\Users\shane.coates\Desktop\HighFive\HighFiveGame\Standalone_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-Platform assembly: C:\Users\shane.coates\Desktop\HighFive\HighFiveGame\Standalone_Data\Managed\UnityEngine.UI.dll (this message is harmless)
-Loading C:\Users\shane.coates\Desktop\HighFive\HighFiveGame\Standalone_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-Platform assembly: C:\Users\shane.coates\Desktop\HighFive\HighFiveGame\Standalone_Data\Managed\UnityEngine.UI.dll (this message is harmless)
-Loading C:\Users\shane.coates\Desktop\HighFive\HighFiveGame\Standalone_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-- Completed reload, in  0.075 seconds
-desktop: 1680x1050 59Hz; virtual: 3360x1050 at 0,0
+Platform assembly: C:\Users\shane.coates\Desktop\HighFiveGame\Standalone_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\shane.coates\Desktop\HighFiveGame\Standalone_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\shane.coates\Desktop\HighFiveGame\Standalone_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\shane.coates\Desktop\HighFiveGame\Standalone_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\shane.coates\Desktop\HighFiveGame\Standalone_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\shane.coates\Desktop\HighFiveGame\Standalone_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\shane.coates\Desktop\HighFiveGame\Standalone_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\shane.coates\Desktop\HighFiveGame\Standalone_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+- Completed reload, in  0.060 seconds
+desktop: 1920x1080 60Hz; virtual: 3840x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
-Platform assembly: C:\Users\shane.coates\Desktop\HighFive\HighFiveGame\Standalone_Data\Managed\System.Core.dll (this message is harmless)
-Platform assembly: C:\Users\shane.coates\Desktop\HighFive\HighFiveGame\Standalone_Data\Managed\System.dll (this message is harmless)
+Platform assembly: C:\Users\shane.coates\Desktop\HighFiveGame\Standalone_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\shane.coates\Desktop\HighFiveGame\Standalone_Data\Managed\System.dll (this message is harmless)
 Setting up 2 worker threads for Enlighten.
-  Thread -> id: 1ac4 -> priority: 1 
-  Thread -> id: 167c -> priority: 1 
+  Thread -> id: 10ec -> priority: 1 
+  Thread -> id: 135c -> priority: 1 

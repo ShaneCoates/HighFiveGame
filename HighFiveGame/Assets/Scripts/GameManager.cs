@@ -8,13 +8,13 @@ public class GameManager : MonoBehaviour {
 	public GameObject obj;
 	public static int playerScore = 0;
 	public int playerConsecutive;
+    public bool playerMultiplierCheck;
 	public int playerMultiplier = 1;
 
 	public static int enemyScore = 0;
 	public int enemyConsecutive;
 	public int enemyMultiplier = 1;
 
-	public Text scoreText;
 	float timeLeft = 20f;
 	float timer = 0f;
 	float count = 0;
@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour {
 		}
 
 		if (timer <= 0f && timeLeft > 0f) {
-			pos = new Vector3(Random.Range (-6f, 6f), obj.transform.lossyScale.y * 0.5f , 30);
+			pos = new Vector3(Random.Range (-6f, 6f), 0 , 30);
 			while(pos.x < 2.5f && pos.x > -2.5f) {
 				pos.x = Random.Range(-6f, 6f);
 			}
@@ -74,15 +74,7 @@ public class GameManager : MonoBehaviour {
 			timer = 0.8f - (count * 0.01f);
 			count++;
 		}
-		if (playerConsecutive > 10) {
-			playerConsecutive = 0;
-			++playerMultiplier;
-		}
-		if (enemyConsecutive > 10) {
-			enemyConsecutive = 0;
-			++enemyMultiplier;
-		}
-		scoreText.text = "Score: " + playerScore + " - Enemy: " + enemyScore;
+        playerMulti();
 	}
 	void OnGUI ()
 	{
@@ -98,4 +90,35 @@ public class GameManager : MonoBehaviour {
 			GUI.DrawTexture (new Rect (0, 0, Screen.width, Screen.height), Fade);
 		}
 	}
+
+    public void playerMulti()
+    {
+        if (playerConsecutive > 10)
+        {
+            playerConsecutive = 0;
+            ++playerMultiplier;
+        }
+    }
+
+    public void playerReset()
+    {
+        playerMultiplier = 1;
+        playerConsecutive = 0;
+    }
+
+    public void enemyMulti()
+    {
+        if (enemyConsecutive > 10)
+        {
+            enemyConsecutive = 0;
+            ++enemyMultiplier;
+        }
+    }
+
+    public void enemyReset()
+    {
+        enemyMultiplier = 1;
+        enemyConsecutive = 0;
+    }
+
 }

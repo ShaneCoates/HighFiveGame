@@ -26,12 +26,13 @@ public class BoxController : MonoBehaviour {
 		} else {
             handPos.x -= Random.Range(0.5f, this.transform.position.x * 0.5f);
 			hand.transform.localScale = new Vector3(hand.transform.localScale.x *-1, hand.transform.localScale.y, hand.transform.localScale.z);
+            particles.transform.localScale = new Vector3(particles.transform.localScale.x * -1, particles.transform.localScale.y, particles.transform.localScale.z);
 		}
-		handPos.y += Random.Range (0, 2f);
+		handPos.y += Random.Range (0.5f, 2.5f);
 		handPos.z -= 0.01f;
 		hand.transform.position = handPos;
         particles.Pause();
-        
+        AICheck();
 	}
 	
 	// Update is called once per frame
@@ -42,6 +43,7 @@ public class BoxController : MonoBehaviour {
 		AdjustOpacity ();
 		this.GetComponent<Renderer>().material.color = colour;
 		hand.GetComponent<Renderer>().material.color = handColour;
+
 	}
 
 	void CheckIfInRange() {
@@ -101,9 +103,12 @@ public class BoxController : MonoBehaviour {
         if (inputPos.x != -1) {
 		    ray = Camera.main.ScreenPointToRay (inputPos);
             if (Physics.Raycast(ray, out hit)) {
-                if (hit.collider.gameObject == hand) {
+                if (hit.collider.gameObject == hand)
+                {
+
                     Collide();
                 }
+                   
             }
 		}
 	}
@@ -112,27 +117,17 @@ public class BoxController : MonoBehaviour {
 		if (inRange && !dissapearing) {
 			dissapearing = true;
 			++GameManager.instance.playerConsecutive;
-            particles.Emit(500);
+            particles.Emit(50);
             SoundManager.Instance.Slap();
+			Dissapear();
 		}
 	}
 
 	void Destroy() {
-		if (!dead) {
-			if (dissapearing) {
-				GameManager.playerScore += 1 * GameManager.instance.playerMultiplier;
-			} else {
-				GameManager.instance.playerMultiplier = 1;
-			}
-
-			if ((Random.Range (0, 100)) < 95) {
-				GameManager.enemyScore += 1 * GameManager.instance.enemyMultiplier;
-				++GameManager.instance.enemyConsecutive;
-			} else {
-				GameManager.instance.enemyMultiplier = 1;
-			}
-		}
-		dead = true;
+        if (dissapearing == false)
+        {
+            GameManager.instance.playerReset();
+        }
 	}
 
 	void OnBecameInvisible() {
@@ -143,5 +138,29 @@ public class BoxController : MonoBehaviour {
 
 	}
 
+	void Dissapear()
+	{
+		if (!dead) {
+			if (dissapearing) {
+				GameManager.playerScore += 1 * GameManager.instance.playerMultiplier;
+			} else {
+				GameManager.instance.playerMultiplier = 1;
+			}
+		}
+		dead = true;
+	}
 
+    void AICheck()
+    {
+        if ((Random.Range(0, 100)) < 90)
+        {
+            GameManager.enemyScore += 1 * GameManager.instance.enemyMultiplier;
+            ++GameManager.instance.enemyConsecutive;
+            GameManager.instance.enemyMulti();
+        }
+        else
+        {
+            GameManager.instance.enemyReset();
+        }
+    }
 }
