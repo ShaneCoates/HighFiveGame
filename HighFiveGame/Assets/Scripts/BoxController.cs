@@ -15,10 +15,15 @@ public class BoxController : MonoBehaviour {
 
 	Ray ray;
 	RaycastHit hit;
+
+    public Material yellowMat;
+    public Material redMat;
+    private Renderer renderer;
+    public LayerMask layerMask;
 	// Use this for initialization
 	void Awake () {
+        renderer = hand.GetComponent<Renderer>();
 		this.GetComponent<Renderer>().material.color = colour;
-		hand.GetComponent<Renderer>().material.color = handColour;
 
 		Vector3 handPos = this.transform.position;
 		if (this.transform.position.x < 0) {
@@ -47,7 +52,7 @@ public class BoxController : MonoBehaviour {
 	}
 
 	void CheckIfInRange() {
-		if (this.transform.position.z < 12 && this.transform.position.z > 5) {
+		if (this.transform.position.z < 20 && this.transform.position.z > 0) {
 			inRange = true;
 		} else {
 			inRange = false;
@@ -55,13 +60,9 @@ public class BoxController : MonoBehaviour {
 
 		if (!dissapearing) {
 			if (inRange) {
-				handColour.g = 0.5f;
-				if (handColour.a < 1) {
-					handColour.a += Time.deltaTime;
-				}
+                renderer.material = redMat;
 			} else {
-				handColour.g = 1f;
-				handColour.a = 1 / this.transform.position.z;
+                renderer.material = yellowMat;
 			}
 		}
 	}
@@ -102,7 +103,7 @@ public class BoxController : MonoBehaviour {
 		Vector2 inputPos = GetTouchPos ();
         if (inputPos.x != -1) {
 		    ray = Camera.main.ScreenPointToRay (inputPos);
-            if (Physics.Raycast(ray, out hit)) {
+            if (Physics.Raycast(ray, out hit, layerMask)) {
                 if (hit.collider.gameObject == hand)
                 {
 
@@ -117,8 +118,10 @@ public class BoxController : MonoBehaviour {
 		if (inRange && !dissapearing) {
 			dissapearing = true;
 			++GameManager.instance.playerConsecutive;
+            particles.transform.position = hand.transform.position;
             particles.Emit(50);
             SoundManager.Instance.Slap();
+            renderer.enabled = false;
 			Dissapear();
 		}
 	}

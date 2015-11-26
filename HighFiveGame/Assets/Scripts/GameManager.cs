@@ -66,10 +66,14 @@ public class GameManager : MonoBehaviour {
 		}
 
 		if (timer <= 0f && timeLeft > 0f) {
-			pos = new Vector3(Random.Range (-6f, 6f), 0 , 30);
-			while(pos.x < 2.5f && pos.x > -2.5f) {
-				pos.x = Random.Range(-6f, 6f);
-			}
+            pos = new Vector3(Random.Range(2.5f, 6f), 0, 30);
+            
+            if(Random.Range(0, 2) == 1)
+            {
+                pos.x *= -1;
+            }
+            
+            
 			Instantiate (obj, pos, new Quaternion());
 			timer = 0.8f - (count * 0.01f);
 			count++;
